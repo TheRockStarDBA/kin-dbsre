@@ -1,3 +1,8 @@
+---
+title: "Curated List To Help Kids Learning"
+categories: [kids learning, covid-19]
+---
+
 Hello All,
 
 My name is Kin Shah and I have created this curated list of useful sites (mostly free) that I found useful from twitter. This is my humble effort to help all parents and their kids in this most needed times. Also, this list will help parents focus on their kids learning and keep them engage/focused : 
