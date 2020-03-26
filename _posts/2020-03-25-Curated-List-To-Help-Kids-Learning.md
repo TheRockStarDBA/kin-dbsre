@@ -2,7 +2,7 @@ Hello All,
 
 My name is Kin Shah and I have created this curated list of useful sites (mostly free) that I found useful from twitter. This is my humble effort to help all parents and their kids in this most needed times. Also, this list will help parents focus on their kids learning and keep them engage/focused : 
 
-**Note:** Some are completely free and some are free for the rest of school year. Thanks to all the sites that have put in effort to help kids learn during this COVID-19 Pandemic ! **This is a work in progress. Feel free to make a PR and I will merge the changes.**
+**Note:** Some are completely free and some are free for the rest of school year. Thanks to all the sites that have put in effort to help kids learn during this COVID-19 Pandemic ! **This is a work in progress. Feel free to make a [Pull Request (PR)](https://github.com/TheRockStarDBA/kin-dbsre/blob/master/_posts/2020-03-25-Curated-List-To-Help-Kids-Learning.md) and I will merge the changes where appropriate.**
  
 - [**SCHOLASTIC LEARN AT HOME**](https://classroommagazines.scholastic.com/support/learnathome.html)
 - [LEARNING A-Z](https://www.learninga-z.com/site/lp2/covid19)
