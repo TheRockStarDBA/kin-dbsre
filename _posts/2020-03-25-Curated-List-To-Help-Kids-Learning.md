@@ -1,5 +1,6 @@
 ---
 title: "Curated List To Help Kids Learning"
+layout: post
 categories: [kids learning, covid-19]
 ---
 
