@@ -1,4 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-03-25T22:03:35-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">Fastpages Notebook Blog Post</title><link href="https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test.html" rel="alternate" type="text/html" title="Fastpages Notebook Blog Post" /><published>2020-02-20T00:00:00-06:00</published><updated>2020-02-20T00:00:00-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test.html">&lt;!--
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-03-25T22:12:48-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">Curated List To Help Kids Learning</title><link href="https://therockstardba.github.io/kin-dbsre/2020/03/25/Curated-List-To-Help-Kids-Learning.html" rel="alternate" type="text/html" title="Curated List To Help Kids Learning" /><published>2020-03-25T00:00:00-05:00</published><updated>2020-03-25T00:00:00-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/2020/03/25/Curated-List-To-Help-Kids-Learning</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/2020/03/25/Curated-List-To-Help-Kids-Learning.html">&lt;p&gt;Hello All,&lt;/p&gt;
+
+&lt;p&gt;My name is Kin Shah and I have created this curated list of useful sites (mostly free) that I found useful from twitter. This is my humble effort to help all parents and their kids in this most needed times. Also, this list will help parents focus on their kids learning and keep them engage/focused :&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Some are completely free and some are free for the rest of school year. Thanks to all the sites that have put in effort to help kids learn during this COVID-19 Pandemic ! &lt;strong&gt;This is a work in progress. Feel free to make a PR and I will merge the changes.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://classroommagazines.scholastic.com/support/learnathome.html&quot;&gt;&lt;strong&gt;SCHOLASTIC LEARN AT HOME&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.learninga-z.com/site/lp2/covid19&quot;&gt;LEARNING A-Z&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.pbslearningmedia.org/collection/emergency-closings-collection/&quot;&gt;PBS LEARNING MEDIA&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.brainpop.com/&quot;&gt;BRAINPOP&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;kids.nationalgeographic.com&quot;&gt;NÀT GEO 4 KIDS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;vooks.com/teacher-appreciation&quot;&gt;VOOKS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;abcya.com&quot;&gt;ABCYA&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.highlightskids.com/&quot;&gt;HIGHLIGHTS KIDS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wow.boomlearning.com/&quot;&gt;BOOM LEARNING&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.storylineonline.net/&quot;&gt;STORYLINE ONLINE&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;timeforkids.com&quot;&gt;&lt;strong&gt;TIME FOR KIDS&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;abcmouse.com&quot;&gt;ABC MOUSE&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://family.gonoodle.com/&quot;&gt;GONOODLE&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wonderopolis.org/&quot;&gt;WONDEROPOLIS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://learnathome.withyoutube.com/&quot;&gt;&lt;strong&gt;Youtube Learning At Home&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://stories.audible.com/start-listen&quot;&gt;AudibleFromAmazon&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://learn.khanacademy.org/khan-academy-kids/&quot;&gt;&lt;strong&gt;Khan academy Kids&lt;/strong&gt;&lt;/a&gt; – Completely Free !
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/e/2PACX-1vSZhOdEPAWjUQpqDkVAlJrFwxxZ9Sa6zGOq0CNRms6Z7DZNq-tQWS3OhuVCUbh_-P-WmksHAzbsrk9d/pub&quot;&gt;Detailed Schedule&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://root.irobot.com/pages/offline-activities&quot;&gt;iRobot Offline activity&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://happynumbers.com/?redirect=no&quot;&gt;Happy Numbers&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.transum.org/Software/&quot;&gt;Transum Mathematics&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.weareteachers.com/free-online-learning-resources/&quot;&gt;175+ Amazing Online Learning Resources&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.weareteachers.com/best-math-websites/#.Xnk0X2VJ3O8.twitter&quot;&gt;60+ Awesome Websites for Teaching and Learning Math&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.duolingo.com/&quot;&gt;Duolingo - learn a language&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://scratch.mit.edu/&quot;&gt;Scratch - by MIT&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://newsela.com/&quot;&gt;Newsela&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thank you !&lt;/p&gt;
+
+&lt;p&gt;~ Kin Shah&lt;/p&gt;</content><author><name></name></author><summary type="html">Hello All,</summary></entry><entry><title type="html">Fastpages Notebook Blog Post</title><link href="https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test.html" rel="alternate" type="text/html" title="Fastpages Notebook Blog Post" /><published>2020-02-20T00:00:00-06:00</published><updated>2020-02-20T00:00:00-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/jupyter/2020/02/20/test.html">&lt;!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
