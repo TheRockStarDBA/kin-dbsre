@@ -10,7 +10,7 @@ I have been working on Microsoft SQL Server databse platform since last 10 years
 
 Active member helping SQL Server community at [dba.se](https://dba.stackexchange.com/users/8783/kin-shah?tab=profile)
 
-<a href="https://stackexchange.com/users/1477326"><img src="https://stackexchange.com/users/flair/1477326.png" width="208" height="58" alt="profile for Kin Shah on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Kin Shah on Stack Exchange, a network of free, community-driven Q&amp;A sites"></a>
+ - <a href="https://stackexchange.com/users/1477326"><img src="https://stackexchange.com/users/flair/1477326.png" width="208" height="58" alt="profile for Kin Shah on Stack Exchange sites" title="profile for Kin Shah on Stack Exchange, a network of free, community-driven Q&amp;A sites"></a>
 
 - [Stackoverflow CV](https://stackoverflow.com/cv/kinshah)
 - [Linkedin Profile](https://www.linkedin.com/in/kinjalkshah/)
