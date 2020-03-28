@@ -41,10 +41,7 @@ Be sure to join as a Parent or Homeschool Teacher
 - [KidActivities.net](https://kidactivities.net/): Lesson Plans, Fun Games, Activities, Jokes, Riddles for Kids
 - [KidLitTV](https://kidlit.tv/): Free Children's Literature through Video and Podcasts
 
-- [Outschool.com](https://outschool.com/2020-school-closures-offer#abk8byhavb): Classes available for Free to families in the U.S. who have been impacted by school closures and are facing financial hardship
-    - Once you register for this program, you will still see full prices listed across the site, but any class scheduled between March 10 and June 1, 2020 is eligible for this offer.
-    - When you click to enroll in an eligible class, you will see its price reduced to 1$. 
-    - You will need to enter a credit card, and you will be charged 1$ per enrollment. This initial charge is necessary to confirm your intention to join the class, and to verify your identity. We will refund it when we confirm your attendance at the first class meeting. (Limit is $50 worth of classes per family)
+- [Outschool.com](https://outschool.com/2020-school-closures-offer#abk8byhavb): Classes available for Free to families in the U.S. who have been impacted by school closures and are facing financial hardship.
 - [Prodigy.com](https://www.prodigygame.com/): Free Full Curriculum Access for students in Grades 1-8
 - [hammermill](https://www.hammermill.com/fun-family-activities): Fun Family Activities
 - [LUNCH DOODLES with Mo Willems ! @ the Kennedy Center](https://www.kennedy-center.org/education/mo-willems/): New episodes will be posted each weekday at 1:00 p.m. ET and then remain online to be streamed afterwards.  Check back each weekday for new LUNCH DOODLES!
