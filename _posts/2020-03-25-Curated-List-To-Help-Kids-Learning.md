@@ -38,6 +38,7 @@ My name is Kin Shah and I have created this curated list of useful sites (mostly
 - [Newsela](https://newsela.com/) : Free Access to Newsela's Entire Product Suite for the Rest of the 2019/2020 School Year.
 Be sure to join as a Parent or Homeschool Teacher
 - [Education.com](https://www.education.com/): Basic Members (free to join, click sign up in upper right corner) Free Access to some of our best Premium Resources
+    - Education.com provies [**independent activities package**](https://www.education.com/workbooks/independent/) which is excellent for all ages (PreK through 5th Grade).
 - [KidActivities.net](https://kidactivities.net/): Lesson Plans, Fun Games, Activities, Jokes, Riddles for Kids
 - [KidLitTV](https://kidlit.tv/): Free Children's Literature through Video and Podcasts
 
