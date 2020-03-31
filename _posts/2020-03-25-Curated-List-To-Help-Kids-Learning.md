@@ -45,6 +45,7 @@ Be sure to join as a Parent or Homeschool Teacher
 - [Prodigy.com](https://www.prodigygame.com/): Free Full Curriculum Access for students in Grades 1-8
 - [hammermill](https://www.hammermill.com/fun-family-activities): Fun Family Activities
 - [LUNCH DOODLES with Mo Willems ! @ the Kennedy Center](https://www.kennedy-center.org/education/mo-willems/): New episodes will be posted each weekday at 1:00 p.m. ET and then remain online to be streamed afterwards.  Check back each weekday for new LUNCH DOODLES!
+- [Dads worksheets](https://www.dadsworksheets.com/): DadsWorksheets.com has been one of the web’s top ranked sources of free math learning materials since 2008.
 
 
 - Virtual Tours of
