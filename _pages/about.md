@@ -4,7 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-My name is **Kin Shah** and I am a Database site reliability engineer at Bloomberg LP. My areas of expertise are in Databases - MS SQL, MySQL and SybaseASE. I love Data Science and Distributed systems. I am an expert working on performance tuning, migration, baselining, process automation, Cloud (Azure), High availability as well as Disaster recovery technologies, etc.
+My name is **Kin Shah** and I am a Database site reliability engineer at Bloomberg LP. My areas of expertise are in Databases - Microsoft SQL Server, Postgres, MySQL and SybaseASE. I love Data Science and Distributed systems. I am an expert working on performance tuning, migration, baselining, process automation, Cloud (Azure), High availability as well as Disaster recovery technologies, etc.
 
 I have been working on Microsoft SQL Server databse platform since last 10 years. Powershell and Python are my go to languages for automation.
 
