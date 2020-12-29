@@ -8,7 +8,7 @@ In this blog post, I will take you on a journey from designing through implement
 
 Setup is pretty simple as shown below 
 
-![SQLServerDBHealthChecker](/images/SQLServerDBHealthChecker.png)
+![SQLServerDBHealthChecker](/images/SQLServerDBHealthChecker_01.png)
 
 
 #### Some background
