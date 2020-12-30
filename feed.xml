@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-12-29T22:44:32-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">SQL Server database health checker</title><link href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" rel="alternate" type="text/html" title="SQL Server database health checker" /><published>2020-12-29T00:00:00-06:00</published><updated>2020-12-29T00:00:00-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html">&lt;h4 id=&quot;the-journey-begins&quot;&gt;**The Journey begins&lt;/h4&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-12-29T22:59:14-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">SQL Server database health checker</title><link href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" rel="alternate" type="text/html" title="SQL Server database health checker" /><published>2020-12-29T00:00:00-06:00</published><updated>2020-12-29T00:00:00-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html">&lt;h4 id=&quot;the-journey-begins&quot;&gt;&lt;strong&gt;The Journey begins&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;In this blog post, I will take you on a journey from designing through implementation details of how I built &lt;strong&gt;a SQL Server database health checker&lt;/strong&gt; using &lt;a href=&quot;https://dbatools.io/&quot;&gt;dbatools&lt;/a&gt;. Also, I will show you how easy is to run dbatools commands as windows service with proper logging.&lt;/p&gt;
 
-&lt;h4 id=&quot;setup&quot;&gt;**Setup&lt;/h4&gt;
+&lt;h4 id=&quot;setup&quot;&gt;&lt;strong&gt;Setup&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;Setup is pretty simple as shown below&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/TheRockStarDBA/kin-dbsre/blob/master/images/SQLServerDBHealthChecker_01.png&quot; alt=&quot;SQLServerDBHealthChecker&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/SQLServerDBHealthChecker_01.png&quot; alt=&quot;SQLServerDBHealthChecker&quot; /&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;some-background&quot;&gt;**Some background&lt;/h4&gt;
+&lt;h4 id=&quot;some-background&quot;&gt;&lt;strong&gt;Some background&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;With my current job as SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.&lt;/p&gt;
 
 &lt;p&gt;We invest heavily in engineering work / automation thereby &lt;a href=&quot;https://landing.google.com/sre/sre-book/chapters/eliminating-toil/&quot;&gt;eliminating toil&lt;/a&gt; as much as possible. Also, we try to gather as much information as possible for the on-call engineer to be able to troubleshoot the issue much faster with all &lt;strong&gt;relevant&lt;/strong&gt; data. This gives us the ability to reduce our application’s MTTD (Mean Time To Detect) and MTTR (Mean Time To Recover) from any outage.&lt;/p&gt;
 
-&lt;h4 id=&quot;adopting-sre-mindset&quot;&gt;**Adopting SRE mindset&lt;/h4&gt;
+&lt;h4 id=&quot;adopting-sre-mindset&quot;&gt;&lt;strong&gt;Adopting SRE mindset&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;We need a prober that can probe our Availability group (AG) every X seconds and provide a good enough view about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?&lt;/p&gt;
 
@@ -25,7 +25,7 @@
   &lt;li&gt;&lt;strong&gt;IsReady Probe&lt;/strong&gt;: This probe will check if the database is writable or not. This solves the problem of database having issues either due to blocking wherein the becomes slow and based on your application timeout settings, your application throws a timeout error.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;building-blocks&quot;&gt;**Building blocks&lt;/h4&gt;
+&lt;h4 id=&quot;building-blocks&quot;&gt;&lt;strong&gt;Building blocks&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;Now that we have an idea of what we want to achieve, I will dicusss the building blocks of this automation. We will need&lt;/p&gt;
 
@@ -76,7 +76,7 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;sql-server-health-checker-&quot;&gt;**SQL Server Health Checker :&lt;/h4&gt;
+&lt;h4 id=&quot;sql-server-health-checker-&quot;&gt;&lt;strong&gt;SQL Server Health Checker&lt;/strong&gt; :&lt;/h4&gt;
 
 &lt;p&gt;Now, we have our building blocks that will help us build our health checker. Lets get to the install process :&lt;/p&gt;
 
@@ -98,7 +98,7 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;non-sucking-service-manager-nssm&quot;&gt;**Non-Sucking Service Manager (NSSM):&lt;/h4&gt;
+&lt;h4 id=&quot;non-sucking-service-manager-nssm&quot;&gt;&lt;strong&gt;Non-Sucking Service Manager (NSSM)&lt;/strong&gt;:&lt;/h4&gt;
 
 &lt;p&gt;Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.&lt;/p&gt;
 
@@ -111,7 +111,7 @@
 
 &lt;p&gt;Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database.&lt;/p&gt;
 
-&lt;h4 id=&quot;few-important-things-&quot;&gt;**Few important things :&lt;/h4&gt;
+&lt;h4 id=&quot;few-important-things-&quot;&gt;&lt;strong&gt;Few important things&lt;/strong&gt; :&lt;/h4&gt;
 
 &lt;ul&gt;
   &lt;li&gt;This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.&lt;/li&gt;
@@ -121,7 +121,7 @@
   &lt;li&gt;I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;advantages-of-using-probing-techinique-for-monitoring-health-&quot;&gt;**Advantages of using probing techinique for monitoring health :&lt;/h4&gt;
+&lt;h4 id=&quot;advantages-of-using-probing-techinique-for-monitoring-health-&quot;&gt;&lt;strong&gt;Advantages of using probing techinique for monitoring health&lt;/strong&gt; :&lt;/h4&gt;
 
 &lt;ul&gt;
   &lt;li&gt;The probing provides a light weight mechanism of assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.&lt;/li&gt;
@@ -134,7 +134,7 @@
 
 &lt;p&gt;Thanks for reading ! See you in 2021 :smile:&lt;/p&gt;
 
-&lt;p&gt;~ Kin&lt;/p&gt;</content><author><name></name></author><summary type="html">**The Journey begins</summary></entry><entry><title type="html">Things that I wish to explore and learn</title><link href="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html" rel="alternate" type="text/html" title="Things that I wish to explore and learn" /><published>2020-04-04T00:00:00-05:00</published><updated>2020-04-04T00:00:00-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html">&lt;p&gt;I wish, I had more time to learn and explore new things … but since due to Lockdown, the time has paused and now people are couting days if not weeks and months.&lt;/p&gt;
+&lt;p&gt;~ &lt;strong&gt;Kin&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">The Journey begins</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png" /><media:content medium="image" url="https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Things that I wish to explore and learn</title><link href="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html" rel="alternate" type="text/html" title="Things that I wish to explore and learn" /><published>2020-04-04T00:00:00-05:00</published><updated>2020-04-04T00:00:00-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html">&lt;p&gt;I wish, I had more time to learn and explore new things … but since due to Lockdown, the time has paused and now people are couting days if not weeks and months.&lt;/p&gt;
 
 &lt;p&gt;Below are things that I want to explore / learn :&lt;/p&gt;
 

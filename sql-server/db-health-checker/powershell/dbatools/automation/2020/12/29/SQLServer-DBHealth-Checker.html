@@ -7,15 +7,16 @@
 <meta name="generator" content="Jekyll v4.0.0" />
 <meta property="og:title" content="SQL Server database health checker" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="**The Journey begins" />
-<meta property="og:description" content="**The Journey begins" />
+<meta name="description" content="The Journey begins" />
+<meta property="og:description" content="The Journey begins" />
 <link rel="canonical" href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
 <meta property="og:url" content="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
 <meta property="og:site_name" content="Database Site Reliability Engineer" />
+<meta property="og:image" content="https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-12-29T00:00:00-06:00" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"description":"**The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"image":"https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png","description":"The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/kin-dbsre/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://therockstardba.github.io/kin-dbsre/feed.xml" title="Database Site Reliability Engineer" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -28,15 +29,16 @@
 <meta name="generator" content="Jekyll v4.0.0" />
 <meta property="og:title" content="SQL Server database health checker" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="**The Journey begins" />
-<meta property="og:description" content="**The Journey begins" />
+<meta name="description" content="The Journey begins" />
+<meta property="og:description" content="The Journey begins" />
 <link rel="canonical" href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
 <meta property="og:url" content="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
 <meta property="og:site_name" content="Database Site Reliability Engineer" />
+<meta property="og:image" content="https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-12-29T00:00:00-06:00" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"description":"**The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"image":"https://therockstardba.github.io/kin-dbsre/images/SQLServerDBHealthChecker_01.png","description":"The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -147,23 +149,23 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h4 id="the-journey-begins">**The Journey begins</h4>
+    <h4 id="the-journey-begins"><strong>The Journey begins</strong></h4>
 
 <p>In this blog post, I will take you on a journey from designing through implementation details of how I built <strong>a SQL Server database health checker</strong> using <a href="https://dbatools.io/">dbatools</a>. Also, I will show you how easy is to run dbatools commands as windows service with proper logging.</p>
 
-<h4 id="setup">**Setup</h4>
+<h4 id="setup"><strong>Setup</strong></h4>
 
 <p>Setup is pretty simple as shown below</p>
 
-<p><img src="https://github.com/TheRockStarDBA/kin-dbsre/blob/master/images/SQLServerDBHealthChecker_01.png" alt="SQLServerDBHealthChecker" /></p>
+<p><img src="/images/SQLServerDBHealthChecker_01.png" alt="SQLServerDBHealthChecker" /></p>
 
-<h4 id="some-background">**Some background</h4>
+<h4 id="some-background"><strong>Some background</strong></h4>
 
 <p>With my current job as SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.</p>
 
 <p>We invest heavily in engineering work / automation thereby <a href="https://landing.google.com/sre/sre-book/chapters/eliminating-toil/">eliminating toil</a> as much as possible. Also, we try to gather as much information as possible for the on-call engineer to be able to troubleshoot the issue much faster with all <strong>relevant</strong> data. This gives us the ability to reduce our application’s MTTD (Mean Time To Detect) and MTTR (Mean Time To Recover) from any outage.</p>
 
-<h4 id="adopting-sre-mindset">**Adopting SRE mindset</h4>
+<h4 id="adopting-sre-mindset"><strong>Adopting SRE mindset</strong></h4>
 
 <p>We need a prober that can probe our Availability group (AG) every X seconds and provide a good enough view about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?</p>
 
@@ -174,7 +176,7 @@ window.onload = wrap_img;
   <li><strong>IsReady Probe</strong>: This probe will check if the database is writable or not. This solves the problem of database having issues either due to blocking wherein the becomes slow and based on your application timeout settings, your application throws a timeout error.</li>
 </ul>
 
-<h4 id="building-blocks">**Building blocks</h4>
+<h4 id="building-blocks"><strong>Building blocks</strong></h4>
 
 <p>Now that we have an idea of what we want to achieve, I will dicusss the building blocks of this automation. We will need</p>
 
@@ -225,7 +227,7 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="sql-server-health-checker-">**SQL Server Health Checker :</h4>
+<h4 id="sql-server-health-checker-"><strong>SQL Server Health Checker</strong> :</h4>
 
 <p>Now, we have our building blocks that will help us build our health checker. Lets get to the install process :</p>
 
@@ -247,7 +249,7 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="non-sucking-service-manager-nssm">**Non-Sucking Service Manager (NSSM):</h4>
+<h4 id="non-sucking-service-manager-nssm"><strong>Non-Sucking Service Manager (NSSM)</strong>:</h4>
 
 <p>Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.</p>
 
@@ -260,7 +262,7 @@ window.onload = wrap_img;
 
 <p>Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database.</p>
 
-<h4 id="few-important-things-">**Few important things :</h4>
+<h4 id="few-important-things-"><strong>Few important things</strong> :</h4>
 
 <ul>
   <li>This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.</li>
@@ -270,7 +272,7 @@ window.onload = wrap_img;
   <li>I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.</li>
 </ul>
 
-<h4 id="advantages-of-using-probing-techinique-for-monitoring-health-">**Advantages of using probing techinique for monitoring health :</h4>
+<h4 id="advantages-of-using-probing-techinique-for-monitoring-health-"><strong>Advantages of using probing techinique for monitoring health</strong> :</h4>
 
 <ul>
   <li>The probing provides a light weight mechanism of assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.</li>
@@ -283,7 +285,7 @@ window.onload = wrap_img;
 
 <p>Thanks for reading ! See you in 2021 :smile:</p>
 
-<p>~ Kin</p>
+<p>~ <strong>Kin</strong></p>
 
 
   </div><a class="u-url" href="/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" hidden></a>
