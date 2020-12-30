@@ -1,4 +1,8 @@
-## SQL Server database health checker
+---
+title: "SQL Server database health checker"
+layout: post
+categories: [sql-server, db-health-checker, powershell, dbatools, automation]
+---
 
 #### The Journey begins 
 
@@ -96,7 +100,9 @@ Below is how you configure the above SQL Server Health Checker as service using 
 - Provides ONCALL engineer high enough confidence about the Availability of critial database along with end-to-end latency metrics.
 - There is room for alerting when latency exceeds certain threshold to alert on a potential issue e.g. slow reads or slow writes. This helps early detection and reduce outages to certain extent.
 
+Thanks for reading ! See you in 2021 :smile:
 
+~ Kin 
 
 
 
