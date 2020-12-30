@@ -152,10 +152,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#some-background">Some background</a></li>
 <li class="toc-entry toc-h4"><a href="#adopting-sre-mindset">Adopting SRE mindset</a></li>
 <li class="toc-entry toc-h4"><a href="#building-blocks">Building blocks</a></li>
-<li class="toc-entry toc-h4"><a href="#sql-server-health-checker-">SQL Server Health Checker :</a></li>
-<li class="toc-entry toc-h4"><a href="#non-sucking-service-manager-nssm">Non-Sucking Service Manager (NSSM):</a></li>
-<li class="toc-entry toc-h4"><a href="#few-important-things-">Few important things :</a></li>
-<li class="toc-entry toc-h4"><a href="#advantages-of-using-probing-techinique-for-monitoring-health-">Advantages of using probing techinique for monitoring health :</a></li>
+<li class="toc-entry toc-h4"><a href="#sql-server-health-checker">SQL Server Health Checker</a></li>
+<li class="toc-entry toc-h4"><a href="#non-sucking-service-manager-nssm">Non-Sucking Service Manager (NSSM)</a></li>
+<li class="toc-entry toc-h4"><a href="#few-important-things">Few important things</a></li>
+<li class="toc-entry toc-h4"><a href="#advantages-of-using-probing-techinique-for-monitoring-health">Advantages of using probing techinique for monitoring health</a></li>
+<li class="toc-entry toc-h4"><a href="#resources">Resources</a></li>
 </ul><h4 id="the-journey-begins">
 <a class="anchor" href="#the-journey-begins" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>The Journey begins</strong>
 </h4>
@@ -262,15 +263,16 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-<strong>NSSM - the Non-Sucking Service Manager</strong> :
+<strong>NSSM - the Non-Sucking Service Manager</strong>
     <ul>
       <li>This is the tool that will allow your powershell script to run as windows service. Grab the latest release of the tool from <a href="https://nssm.cc/download">here</a>.</li>
     </ul>
   </li>
 </ul>
 
-<h4 id="sql-server-health-checker-">
-<a class="anchor" href="#sql-server-health-checker-" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>SQL Server Health Checker</strong> :</h4>
+<h4 id="sql-server-health-checker">
+<a class="anchor" href="#sql-server-health-checker" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>SQL Server Health Checker</strong>
+</h4>
 
 <p>Now, we have our building blocks that will help us build our health checker. Lets get to the install process :</p>
 
@@ -296,7 +298,8 @@ window.onload = wrap_img;
 </ul>
 
 <h4 id="non-sucking-service-manager-nssm">
-<a class="anchor" href="#non-sucking-service-manager-nssm" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Non-Sucking Service Manager (NSSM)</strong>:</h4>
+<a class="anchor" href="#non-sucking-service-manager-nssm" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Non-Sucking Service Manager (NSSM)</strong>
+</h4>
 
 <p>Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.</p>
 
@@ -309,8 +312,9 @@ window.onload = wrap_img;
 
 <p>Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database.</p>
 
-<h4 id="few-important-things-">
-<a class="anchor" href="#few-important-things-" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Few important things</strong> :</h4>
+<h4 id="few-important-things">
+<a class="anchor" href="#few-important-things" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Few important things</strong>
+</h4>
 
 <ul>
   <li>This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.</li>
@@ -321,8 +325,9 @@ window.onload = wrap_img;
   <li>I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.</li>
 </ul>
 
-<h4 id="advantages-of-using-probing-techinique-for-monitoring-health-">
-<a class="anchor" href="#advantages-of-using-probing-techinique-for-monitoring-health-" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Advantages of using probing techinique for monitoring health</strong> :</h4>
+<h4 id="advantages-of-using-probing-techinique-for-monitoring-health">
+<a class="anchor" href="#advantages-of-using-probing-techinique-for-monitoring-health" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Advantages of using probing techinique for monitoring health</strong>
+</h4>
 
 <ul>
   <li>The probing provides a light weight mechanism thereby providing an assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.</li>
@@ -336,6 +341,13 @@ window.onload = wrap_img;
 <p>Thanks for reading ! See you in 2021 :smile:</p>
 
 <p>~ <strong>Kin</strong></p>
+
+<h4 id="resources">
+<a class="anchor" href="#resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources</h4>
+<ul>
+  <li>Github repo - <a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker">TheRockStarDBA/SQLServerHealthChecker</a>
+</li>
+</ul>
 
 
   </div><!-- from https://github.com/utterance/utterances -->
