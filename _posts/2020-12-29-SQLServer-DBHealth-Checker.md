@@ -58,11 +58,11 @@ Now that we have an idea of what we want to achieve, I will dicusss the building
         - `Rotate-LogFile` : Rotates the log file when it reaches 10K lines and keeps 5 files max files around
  - **Config File** :
    - This is where you will make changes and adjust as per your needs. The only thing that will need to be changed is `$global:databaseName`
- - **NSSM - the Non-Sucking Service Manager** :
+ - **NSSM - the Non-Sucking Service Manager** 
    - This is the tool that will allow your powershell script to run as windows service. Grab the latest release of the tool from [here](https://nssm.cc/download).
       
     
-#### **SQL Server Health Checker** :
+#### **SQL Server Health Checker** 
 
 Now, we have our building blocks that will help us build our health checker. Lets get to the install process :
 
@@ -76,7 +76,7 @@ Now, we have our building blocks that will help us build our health checker. Let
    - [`GlobalGeneric.ps1`](https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/GlobalGeneric.ps1) : This file just contains functions that are generic and are used in the `main.ps1`. They are pretty generic, so you can turn them into a module or just use them by importing.
    - [`Config.ps1`](https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1) : This is the file that contains all the variables or config parameters that can be different depending on environments. Most important to change is the database name which should be changed.
 
-#### **Non-Sucking Service Manager (NSSM)**:
+#### **Non-Sucking Service Manager (NSSM)**
 
 Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.
 
@@ -87,7 +87,7 @@ Below is how you configure the above SQL Server Health Checker as service using 
  
  Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database. 
 
-#### **Few important things** :
+#### **Few important things** 
 
 - This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.
 - The script will run in an infinite loop with a sleep of 5 secs which is configurable (see [`config.ps1`](https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1#L14))
@@ -95,7 +95,7 @@ Below is how you configure the above SQL Server Health Checker as service using 
 - If you feel that the process can be improved, feel free to [create a pull request](https://github.com/TheRockStarDBA/SQLServerHealthChecker/pulls)
 - I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.
 
-#### **Advantages of using probing techinique for monitoring health** :
+#### **Advantages of using probing techinique for monitoring health** 
 
 - The probing provides a light weight mechanism thereby providing an assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.
 - The probe also gives me the failover history - what server was primary at a given point in time. If you plot this on Grafana, you can visualize the failover history in a beautiful way.
@@ -108,5 +108,7 @@ Thanks for reading ! See you in 2021 :smile:
 
 ~ **Kin** 
 
+#### Resources 
+- Github repo - [TheRockStarDBA/SQLServerHealthChecker](https://github.com/TheRockStarDBA/SQLServerHealthChecker)
 
 
