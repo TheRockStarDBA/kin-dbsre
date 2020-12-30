@@ -7,14 +7,15 @@ categories: [sql-server, db-health-checker, powershell, dbatools, automation]
 
 #### **The Journey begins** 
 
+> twitter: https://twitter.com/TheRockstarDBA/status/1313487225234108417
+
 In this blog post, I will take you on a journey from designing through implementation details of how I built **a SQL Server database health checker** using [dbatools](https://dbatools.io/). Also, I will show you how easy is to run dbatools commands as windows service with proper logging.
 
 #### **Setup**
 
 Setup is pretty simple as shown below 
 
-![SQLServerDBHealthChecker](/images/SQLServerDBHealthChecker_01.png)
-
+![]({{ site.baseurl }}/images/SQLServerDBHealthChecker_01.png "SQL Server database health checker")
 
 #### **Some background**
 
