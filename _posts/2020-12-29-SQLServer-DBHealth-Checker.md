@@ -1,15 +1,17 @@
 ---
 title: "SQL Server database health checker"
 layout: post
+toc: true
+comments: true
 image: images/SQLServerDBHealthChecker_01.png
-categories: [sql-server, db-health-checker, powershell, dbatools, automation]
+categories: [sql-server, powershell, dbatools, automation]
 ---
 
 #### **The Journey begins** 
 
  {% twitter https://twitter.com/TheRockstarDBA/status/1313487225234108417 %}
 
-In this blog post, I will take you on a journey from designing through implementation details of how I built **a SQL Server database health checker** using [dbatools](https://dbatools.io/). Also, I will show you how easy is to run dbatools commands as windows service with proper logging.
+In this blog post, I will take you on a journey from designing through implementation details of how I built **a SQL Server database health checker** using [dbatools](https://dbatools.io/). Also, I will show you how easy is to **run your PowerShell script as windows service** with proper logging.
 
 #### **Setup**
 
@@ -19,13 +21,13 @@ Setup is pretty simple as shown below
 
 #### **Some background**
 
-With my current job as SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.
+With my current role as an SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.
 
 We invest heavily in engineering work / automation thereby [eliminating toil](https://landing.google.com/sre/sre-book/chapters/eliminating-toil/) as much as possible. Also, we try to gather as much information as possible for the on-call engineer to be able to troubleshoot the issue much faster with all **relevant** data. This gives us the ability to reduce our application's MTTD (Mean Time To Detect) and MTTR (Mean Time To Recover) from any outage.
 
 #### **Adopting SRE mindset** 
 
-We need a prober that can probe our Availability group (AG) every X seconds and provide a good enough view about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?
+We need a prober that can probe our Availability group (AG) every X seconds (5 secs) and provide a good enough confidence about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?
 
 To perform above operation, we will need 2 probes (In simple terms, a probe is an extremely light weight mechanism to check health of a system).
 
@@ -95,9 +97,9 @@ Below is how you configure the above SQL Server Health Checker as service using 
 
 #### **Advantages of using probing techinique for monitoring health** :
 
-- The probing provides a light weight mechanism of assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.
+- The probing provides a light weight mechanism thereby providing an assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.
 - The probe also gives me the failover history - what server was primary at a given point in time. If you plot this on Grafana, you can visualize the failover history in a beautiful way.
-- I can see READ and WRITE latencies from application side as well as from sql server side. This goes with the [RED method to orcestrate your service](https://grafana.com/blog/2018/08/02/the-red-method-how-to-instrument-your-services/).
+- I can see READ and WRITE latencies from application side as well as from sql server side. This follows using the [RED method to Instrument your service](https://grafana.com/blog/2018/08/02/the-red-method-how-to-instrument-your-services/).
 - This health chekcer provides Error rate when encountered since we are logging all errors and can feed those into log ingestion pipeline or tools for alerting.
 - Provides ONCALL engineer high enough confidence about the Availability of critial database along with end-to-end latency metrics.
 - There is room for alerting when latency exceeds certain threshold to alert on a potential issue e.g. slow reads or slow writes. This helps early detection and reduce outages to certain extent.
