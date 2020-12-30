@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>SQL Server database health checker | Database Site Reliability Engineer</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="SQL Server database health checker" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Journey begins" />
+<meta property="og:description" content="The Journey begins" />
+<link rel="canonical" href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
+<meta property="og:url" content="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
+<meta property="og:site_name" content="Database Site Reliability Engineer" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-29T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"description":"The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/kin-dbsre/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://therockstardba.github.io/kin-dbsre/feed.xml" title="Database Site Reliability Engineer" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-161822492-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/kin-dbsre/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>SQL Server database health checker | Database Site Reliability Engineer</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="SQL Server database health checker" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Journey begins" />
+<meta property="og:description" content="The Journey begins" />
+<link rel="canonical" href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
+<meta property="og:url" content="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" />
+<meta property="og:site_name" content="Database Site Reliability Engineer" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-29T00:00:00-06:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html"},"description":"The Journey begins","@type":"BlogPosting","url":"https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html","headline":"SQL Server database health checker","dateModified":"2020-12-29T00:00:00-06:00","datePublished":"2020-12-29T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://therockstardba.github.io/kin-dbsre/feed.xml" title="Database Site Reliability Engineer" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-161822492-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/kin-dbsre/">Database Site Reliability Engineer</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/kin-dbsre/about/">About Me</a><a class="page-link" href="/kin-dbsre/search/">Search</a><a class="page-link" href="/kin-dbsre/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SQL Server database health checker</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-12-29T00:00:00-06:00" itemprop="datePublished">
+        Dec 29, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/kin-dbsre/categories/#sql-server">sql-server</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/kin-dbsre/categories/#db-health-checker">db-health-checker</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/kin-dbsre/categories/#powershell">powershell</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/kin-dbsre/categories/#dbatools">dbatools</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/kin-dbsre/categories/#automation">automation</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h4 id="the-journey-begins">The Journey begins</h4>
+
+<p>In this blog post, I will take you on a journey from designing through implementation details of how I built <strong>a SQL Server database health checker</strong> using <a href="https://dbatools.io/">dbatools</a>. Also, I will show you how easy is to run dbatools commands as windows service with proper logging.</p>
+
+<h4 id="setup">Setup</h4>
+
+<p>Setup is pretty simple as shown below</p>
+
+<p><img src="/images/SQLServerDBHealthChecker_01.png" alt="SQLServerDBHealthChecker" /></p>
+
+<h4 id="some-background">Some background</h4>
+
+<p>With my current job as SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.</p>
+
+<p>We invest heavily in engineering work / automation thereby <a href="https://landing.google.com/sre/sre-book/chapters/eliminating-toil/">eliminating toil</a> as much as possible. Also, we try to gather as much information as possible for the on-call engineer to be able to troubleshoot the issue much faster with all <strong>relevant</strong> data. This gives us the ability to reduce our application’s MTTD (Mean Time To Detect) and MTTR (Mean Time To Recover) from any outage.</p>
+
+<h4 id="adopting-sre-mindset">Adopting SRE mindset</h4>
+
+<p>We need a prober that can probe our Availability group (AG) every X seconds and provide a good enough view about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?</p>
+
+<p>To perform above operation, we will need 2 probes (In simple terms, a probe is an extremely light weight mechanism to check health of a system).</p>
+
+<ul>
+  <li><strong>IsAlive Probe</strong>: This probe will check if database is readable or accessible. This solves the problem of database being started, but it is still recovering i.e. the db is not ready to process requests. This can happen when a failover happens and the new primary is taking long time to recover due to role reveral.</li>
+  <li><strong>IsReady Probe</strong>: This probe will check if the database is writable or not. This solves the problem of database having issues either due to blocking wherein the becomes slow and based on your application timeout settings, your application throws a timeout error.</li>
+</ul>
+
+<h4 id="building-blocks">Building blocks</h4>
+
+<p>Now that we have an idea of what we want to achieve, I will dicusss the building blocks of this automation. We will need</p>
+
+<ul>
+  <li><strong>Database Objects</strong> :
+    <ul>
+      <li>Database table: <code class="highlighter-rouge">dbo.sql_health_check</code> - This table will be used to record successful writes from the application servers from where the connection was made to the DB.</li>
+      <li>Database Store Procedures
+        <ul>
+          <li><code class="highlighter-rouge">dbo.usp_dbHealthCheckSelect</code> (IsAlive Probe) : This SP will perform a basic <code class="highlighter-rouge">SELECT</code>. Good enough to tell if DB isAlive.</li>
+          <li><code class="highlighter-rouge">dbo.usp_dbHealthCheckSelectWrite</code> (IsReady Probe) : This SP will perform a <code class="highlighter-rouge">SELECT</code> + <code class="highlighter-rouge">INSERT</code> into <code class="highlighter-rouge">dbo.sql_health_check</code></li>
+        </ul>
+      </li>
+      <li>A SQL Agent job that runs periodically to <code class="highlighter-rouge">TRUNCATE</code> <code class="highlighter-rouge">dbo.sql_health_check</code> table. This is to make sure that we trim the health check table.</li>
+    </ul>
+  </li>
+  <li><strong>PowerShell code / cmdlets</strong> :
+    <ul>
+      <li>dbatools
+        <ul>
+          <li><code class="highlighter-rouge">Connect-DbaInstance</code> : Connects to a given sql server instance using listener</li>
+          <li><code class="highlighter-rouge">Invoke-DbaQuery</code> : Invokes IsAlive and IsReady stored procedures</li>
+        </ul>
+      </li>
+      <li>PowerShell code functions
+        <ul>
+          <li>main.ps1
+            <ul>
+              <li><code class="highlighter-rouge">Invoke-DbHealthProbeIsAlive</code> : Performs IsAlive probe by calling <code class="highlighter-rouge">dbo.usp_dbHealthCheckSelect</code></li>
+              <li><code class="highlighter-rouge">Invoke-DbHealthProbeIsReady</code> : Performs IsReady probe by calling <code class="highlighter-rouge">dbo.usp_dbHealthCheckSelectWrite</code></li>
+              <li><code class="highlighter-rouge">Write-LogToJSON</code> : Writes to a log file as compressed JSON. JSON was a good choice since our log ingestion tool parses JSON efficiently.</li>
+              <li><code class="highlighter-rouge">Rotate-LogFile</code> : Rotates the log file when it reaches 10K lines and keeps 5 files max files around</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Config File</strong> :
+    <ul>
+      <li>This is where you will make changes and adjust as per your needs. The only thing that will need to be changed is <code class="highlighter-rouge">$global:databaseName</code></li>
+    </ul>
+  </li>
+  <li><strong>NSSM - the Non-Sucking Service Manager</strong> :
+    <ul>
+      <li>This is the tool that will allow your powershell script to run as windows service. Grab the latest release of the tool from <a href="https://nssm.cc/download">here</a>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="sql-server-health-checker-">SQL Server Health Checker :</h4>
+
+<p>Now, we have our building blocks that will help us build our health checker. Lets get to the install process :</p>
+
+<ul>
+  <li>Create database objects :
+    <ul>
+      <li><a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/database_objects/tables/dbo_sql_health_check.sql">create table</a></li>
+      <li><a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/tree/main/database_objects/stored_procedures">create stored procedures</a></li>
+      <li>make sure that the <code class="highlighter-rouge">application_user</code> is granted proper rights on the database objects.</li>
+    </ul>
+  </li>
+  <li>Powershell code
+    <ul>
+      <li>Make sure that dbatools is installed on all application servers. See <a href="https://dbatools.io/download/">install guide</a>.</li>
+      <li><a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/main.ps1"><code class="highlighter-rouge">main.ps1</code></a> : This is the file that drives the logic of performing probes and writing to log file.</li>
+      <li><a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/GlobalGeneric.ps1"><code class="highlighter-rouge">GlobalGeneric.ps1</code></a> : This file just contains functions that are generic and are used in the <code class="highlighter-rouge">main.ps1</code>. They are pretty generic, so you can turn them into a module or just use them by importing.</li>
+      <li><a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1"><code class="highlighter-rouge">Config.ps1</code></a> : This is the file that contains all the variables or config parameters that can be different depending on environments. Most important to change is the database name which should be changed.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="non-sucking-service-manager-nssm">Non-Sucking Service Manager (NSSM):</h4>
+
+<p>Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.</p>
+
+<p>Below is how you configure the above SQL Server Health Checker as service using NSSM :</p>
+
+<ul>
+  <li>Install NSSM.</li>
+  <li>Follow <a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/NSSM_install.ps1">these steps to configure</a> <code class="highlighter-rouge">main.ps1</code> to run as windows service.</li>
+</ul>
+
+<p>Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database.</p>
+
+<h4 id="few-important-things-">Few important things :</h4>
+
+<ul>
+  <li>This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.</li>
+  <li>The script will run in an infinite loop with a sleep of 5 secs which is configurable (see <a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1#L14"><code class="highlighter-rouge">config.ps1</code></a>)</li>
+  <li>As always, test the code that you find on internet and understand what it does. If you have questions about this process, <a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/issues">file an issue</a> and I will be happy to respond.</li>
+  <li>If you feel that the process can be improved, feel free to <a href="https://github.com/TheRockStarDBA/SQLServerHealthChecker/pulls">create a pull request</a></li>
+  <li>I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.</li>
+</ul>
+
+<h4 id="advantages-of-using-probing-techinique-for-monitoring-health-">Advantages of using probing techinique for monitoring health :</h4>
+
+<ul>
+  <li>The probing provides a light weight mechanism of assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.</li>
+  <li>The probe also gives me the failover history - what server was primary at a given point in time. If you plot this on Grafana, you can visualize the failover history in a beautiful way.</li>
+  <li>I can see READ and WRITE latencies from application side as well as from sql server side. This goes with the <a href="https://grafana.com/blog/2018/08/02/the-red-method-how-to-instrument-your-services/">RED method to orcestrate your service</a>.</li>
+  <li>This health chekcer provides Error rate when encountered since we are logging all errors and can feed those into log ingestion pipeline or tools for alerting.</li>
+  <li>Provides ONCALL engineer high enough confidence about the Availability of critial database along with end-to-end latency metrics.</li>
+  <li>There is room for alerting when latency exceeds certain threshold to alert on a potential issue e.g. slow reads or slow writes. This helps early detection and reduce outages to certain extent.</li>
+</ul>
+
+<p>Thanks for reading ! See you in 2021 :smile:</p>
+
+<p>~ Kin</p>
+
+
+  </div><a class="u-url" href="/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/kin-dbsre/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/kin-dbsre/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/kin-dbsre/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/TheRockStarDBA" title="TheRockStarDBA"><svg class="svg-icon grey"><use xlink:href="/kin-dbsre/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/TheRockstarDBA" title="TheRockstarDBA"><svg class="svg-icon grey"><use xlink:href="/kin-dbsre/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

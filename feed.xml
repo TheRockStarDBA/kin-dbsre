@@ -1,4 +1,140 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-12-29T11:52:41-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">Things that I wish to explore and learn</title><link href="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html" rel="alternate" type="text/html" title="Things that I wish to explore and learn" /><published>2020-04-04T00:00:00-05:00</published><updated>2020-04-04T00:00:00-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html">&lt;p&gt;I wish, I had more time to learn and explore new things … but since due to Lockdown, the time has paused and now people are couting days if not weeks and months.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://therockstardba.github.io/kin-dbsre/feed.xml" rel="self" type="application/atom+xml" /><link href="https://therockstardba.github.io/kin-dbsre/" rel="alternate" type="text/html" /><updated>2020-12-29T22:32:52-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/feed.xml</id><title type="html">Database Site Reliability Engineer</title><subtitle>My musings as Database Site Reliability Engineer as well as performance tuning expert. This is my personal blog and opinions are my own !</subtitle><entry><title type="html">SQL Server database health checker</title><link href="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html" rel="alternate" type="text/html" title="SQL Server database health checker" /><published>2020-12-29T00:00:00-06:00</published><updated>2020-12-29T00:00:00-06:00</updated><id>https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/sql-server/db-health-checker/powershell/dbatools/automation/2020/12/29/SQLServer-DBHealth-Checker.html">&lt;h4 id=&quot;the-journey-begins&quot;&gt;The Journey begins&lt;/h4&gt;
+
+&lt;p&gt;In this blog post, I will take you on a journey from designing through implementation details of how I built &lt;strong&gt;a SQL Server database health checker&lt;/strong&gt; using &lt;a href=&quot;https://dbatools.io/&quot;&gt;dbatools&lt;/a&gt;. Also, I will show you how easy is to run dbatools commands as windows service with proper logging.&lt;/p&gt;
+
+&lt;h4 id=&quot;setup&quot;&gt;Setup&lt;/h4&gt;
+
+&lt;p&gt;Setup is pretty simple as shown below&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/SQLServerDBHealthChecker_01.png&quot; alt=&quot;SQLServerDBHealthChecker&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;some-background&quot;&gt;Some background&lt;/h4&gt;
+
+&lt;p&gt;With my current job as SRE (Site Reliability Engineer), I often encounter issues wherein application server/s have issues conneting to SQL Server. The issues could be related to a planned or unplanned failover, SQL Server becoming unresponsive due to high CPU or long blocking chain, etc. We as an SRE team need to know what is going on wrong with the database and based on the symptoms, we can trigger different actions e.g. automatically kickoff failover or page someone to perform appropriate mitigation.&lt;/p&gt;
+
+&lt;p&gt;We invest heavily in engineering work / automation thereby &lt;a href=&quot;https://landing.google.com/sre/sre-book/chapters/eliminating-toil/&quot;&gt;eliminating toil&lt;/a&gt; as much as possible. Also, we try to gather as much information as possible for the on-call engineer to be able to troubleshoot the issue much faster with all &lt;strong&gt;relevant&lt;/strong&gt; data. This gives us the ability to reduce our application’s MTTD (Mean Time To Detect) and MTTR (Mean Time To Recover) from any outage.&lt;/p&gt;
+
+&lt;h4 id=&quot;adopting-sre-mindset&quot;&gt;Adopting SRE mindset&lt;/h4&gt;
+
+&lt;p&gt;We need a prober that can probe our Availability group (AG) every X seconds and provide a good enough view about the health of AG. It answers 2 main questions - is the database readable and is the database writable ?&lt;/p&gt;
+
+&lt;p&gt;To perform above operation, we will need 2 probes (In simple terms, a probe is an extremely light weight mechanism to check health of a system).&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;IsAlive Probe&lt;/strong&gt;: This probe will check if database is readable or accessible. This solves the problem of database being started, but it is still recovering i.e. the db is not ready to process requests. This can happen when a failover happens and the new primary is taking long time to recover due to role reveral.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;IsReady Probe&lt;/strong&gt;: This probe will check if the database is writable or not. This solves the problem of database having issues either due to blocking wherein the becomes slow and based on your application timeout settings, your application throws a timeout error.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;building-blocks&quot;&gt;Building blocks&lt;/h4&gt;
+
+&lt;p&gt;Now that we have an idea of what we want to achieve, I will dicusss the building blocks of this automation. We will need&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Database Objects&lt;/strong&gt; :
+    &lt;ul&gt;
+      &lt;li&gt;Database table: &lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.sql_health_check&lt;/code&gt; - This table will be used to record successful writes from the application servers from where the connection was made to the DB.&lt;/li&gt;
+      &lt;li&gt;Database Store Procedures
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.usp_dbHealthCheckSelect&lt;/code&gt; (IsAlive Probe) : This SP will perform a basic &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT&lt;/code&gt;. Good enough to tell if DB isAlive.&lt;/li&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.usp_dbHealthCheckSelectWrite&lt;/code&gt; (IsReady Probe) : This SP will perform a &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;INSERT&lt;/code&gt; into &lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.sql_health_check&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;A SQL Agent job that runs periodically to &lt;code class=&quot;highlighter-rouge&quot;&gt;TRUNCATE&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.sql_health_check&lt;/code&gt; table. This is to make sure that we trim the health check table.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PowerShell code / cmdlets&lt;/strong&gt; :
+    &lt;ul&gt;
+      &lt;li&gt;dbatools
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Connect-DbaInstance&lt;/code&gt; : Connects to a given sql server instance using listener&lt;/li&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Invoke-DbaQuery&lt;/code&gt; : Invokes IsAlive and IsReady stored procedures&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;PowerShell code functions
+        &lt;ul&gt;
+          &lt;li&gt;main.ps1
+            &lt;ul&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Invoke-DbHealthProbeIsAlive&lt;/code&gt; : Performs IsAlive probe by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.usp_dbHealthCheckSelect&lt;/code&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Invoke-DbHealthProbeIsReady&lt;/code&gt; : Performs IsReady probe by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;dbo.usp_dbHealthCheckSelectWrite&lt;/code&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Write-LogToJSON&lt;/code&gt; : Writes to a log file as compressed JSON. JSON was a good choice since our log ingestion tool parses JSON efficiently.&lt;/li&gt;
+              &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Rotate-LogFile&lt;/code&gt; : Rotates the log file when it reaches 10K lines and keeps 5 files max files around&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Config File&lt;/strong&gt; :
+    &lt;ul&gt;
+      &lt;li&gt;This is where you will make changes and adjust as per your needs. The only thing that will need to be changed is &lt;code class=&quot;highlighter-rouge&quot;&gt;$global:databaseName&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;NSSM - the Non-Sucking Service Manager&lt;/strong&gt; :
+    &lt;ul&gt;
+      &lt;li&gt;This is the tool that will allow your powershell script to run as windows service. Grab the latest release of the tool from &lt;a href=&quot;https://nssm.cc/download&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;sql-server-health-checker-&quot;&gt;SQL Server Health Checker :&lt;/h4&gt;
+
+&lt;p&gt;Now, we have our building blocks that will help us build our health checker. Lets get to the install process :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create database objects :
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/database_objects/tables/dbo_sql_health_check.sql&quot;&gt;create table&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/tree/main/database_objects/stored_procedures&quot;&gt;create stored procedures&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;make sure that the &lt;code class=&quot;highlighter-rouge&quot;&gt;application_user&lt;/code&gt; is granted proper rights on the database objects.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Powershell code
+    &lt;ul&gt;
+      &lt;li&gt;Make sure that dbatools is installed on all application servers. See &lt;a href=&quot;https://dbatools.io/download/&quot;&gt;install guide&lt;/a&gt;.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/main.ps1&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.ps1&lt;/code&gt;&lt;/a&gt; : This is the file that drives the logic of performing probes and writing to log file.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/GlobalGeneric.ps1&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GlobalGeneric.ps1&lt;/code&gt;&lt;/a&gt; : This file just contains functions that are generic and are used in the &lt;code class=&quot;highlighter-rouge&quot;&gt;main.ps1&lt;/code&gt;. They are pretty generic, so you can turn them into a module or just use them by importing.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Config.ps1&lt;/code&gt;&lt;/a&gt; : This is the file that contains all the variables or config parameters that can be different depending on environments. Most important to change is the database name which should be changed.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;non-sucking-service-manager-nssm&quot;&gt;Non-Sucking Service Manager (NSSM):&lt;/h4&gt;
+
+&lt;p&gt;Now we have the health checker ready and we just need to run the entire probe as a windows service. A service that should restart when the machine reboots. We will run the health checker as service on all the application servers that connects to the Availability Group database.&lt;/p&gt;
+
+&lt;p&gt;Below is how you configure the above SQL Server Health Checker as service using NSSM :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install NSSM.&lt;/li&gt;
+  &lt;li&gt;Follow &lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/NSSM_install.ps1&quot;&gt;these steps to configure&lt;/a&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;main.ps1&lt;/code&gt; to run as windows service.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thats it ! Now you have a powershell script that is configured to run as windows service to monitor health of your AlwaysON Availability group database.&lt;/p&gt;
+
+&lt;h4 id=&quot;few-important-things-&quot;&gt;Few important things :&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;This will monitor one database in an AG group, but the script can be enhanced if you prefer to monitor multiple databases or multiple AGs. I dont see a point in monitoring multiple databases which are part of same AG.&lt;/li&gt;
+  &lt;li&gt;The script will run in an infinite loop with a sleep of 5 secs which is configurable (see &lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/blob/main/powershell/Config.ps1#L14&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;config.ps1&lt;/code&gt;&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;As always, test the code that you find on internet and understand what it does. If you have questions about this process, &lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/issues&quot;&gt;file an issue&lt;/a&gt; and I will be happy to respond.&lt;/li&gt;
+  &lt;li&gt;If you feel that the process can be improved, feel free to &lt;a href=&quot;https://github.com/TheRockStarDBA/SQLServerHealthChecker/pulls&quot;&gt;create a pull request&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;I am using TimeSeries database and Grafana to view the metrics that I collect part of the health checker probes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;advantages-of-using-probing-techinique-for-monitoring-health-&quot;&gt;Advantages of using probing techinique for monitoring health :&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The probing provides a light weight mechanism of assurance that the health of database is fine i.e. the application is able to read and write to a database successfully.&lt;/li&gt;
+  &lt;li&gt;The probe also gives me the failover history - what server was primary at a given point in time. If you plot this on Grafana, you can visualize the failover history in a beautiful way.&lt;/li&gt;
+  &lt;li&gt;I can see READ and WRITE latencies from application side as well as from sql server side. This goes with the &lt;a href=&quot;https://grafana.com/blog/2018/08/02/the-red-method-how-to-instrument-your-services/&quot;&gt;RED method to orcestrate your service&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;This health chekcer provides Error rate when encountered since we are logging all errors and can feed those into log ingestion pipeline or tools for alerting.&lt;/li&gt;
+  &lt;li&gt;Provides ONCALL engineer high enough confidence about the Availability of critial database along with end-to-end latency metrics.&lt;/li&gt;
+  &lt;li&gt;There is room for alerting when latency exceeds certain threshold to alert on a potential issue e.g. slow reads or slow writes. This helps early detection and reduce outages to certain extent.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thanks for reading ! See you in 2021 :smile:&lt;/p&gt;
+
+&lt;p&gt;~ Kin&lt;/p&gt;</content><author><name></name></author><summary type="html">The Journey begins</summary></entry><entry><title type="html">Things that I wish to explore and learn</title><link href="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html" rel="alternate" type="text/html" title="Things that I wish to explore and learn" /><published>2020-04-04T00:00:00-05:00</published><updated>2020-04-04T00:00:00-05:00</updated><id>https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit</id><content type="html" xml:base="https://therockstardba.github.io/kin-dbsre/non-work/covid-19/2020/04/04/bookmarks_to_revisit.html">&lt;p&gt;I wish, I had more time to learn and explore new things … but since due to Lockdown, the time has paused and now people are couting days if not weeks and months.&lt;/p&gt;
 
 &lt;p&gt;Below are things that I want to explore / learn :&lt;/p&gt;
 
